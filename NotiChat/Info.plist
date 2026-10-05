@@ -24,6 +24,10 @@
 	<true/>
 	<key>MinimumOSVersion</key>
 	<string>16.0</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>NotiChat requires microphone access to record end-to-end encrypted voice messages.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>NotiChat requires photo library access to attach and send encrypted photos.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
