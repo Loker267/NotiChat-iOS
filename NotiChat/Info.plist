@@ -28,6 +28,8 @@
 	<string>NotiChat requires microphone access to record end-to-end encrypted voice messages.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>NotiChat requires photo library access to attach and send encrypted photos.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>NotiChat requires camera access to scan contact QR codes and import public keys.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

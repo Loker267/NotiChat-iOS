@@ -6,6 +6,7 @@ public struct NewChatView: View {
     @State private var recipientName = ""
     @State private var recipientPublicKey = ""
     @State private var errorMessage = ""
+    @State private var showQRScanner = false
 
     public var body: some View {
         NavigationView {
@@ -26,13 +27,27 @@ public struct NewChatView: View {
                                     .stroke(Color(.systemGray4), lineWidth: 1)
                             )
 
-                        Button(action: pasteFromClipboard) {
-                            HStack {
-                                Image(systemName: "doc.on.clipboard")
-                                Text("Paste from Clipboard")
+                        HStack(spacing: 12) {
+                            Button(action: pasteFromClipboard) {
+                                HStack {
+                                    Image(systemName: "doc.on.clipboard")
+                                    Text("Вставить из буфера")
+                                }
+                                .font(.footnote)
                             }
-                            .font(.footnote)
+
+                            Spacer()
+
+                            Button(action: { showQRScanner = true }) {
+                                HStack {
+                                    Image(systemName: "qrcode.viewfinder")
+                                    Text("Сканировать QR-код")
+                                }
+                                .font(.footnote)
+                                .foregroundColor(.accentColor)
+                            }
                         }
+                        .padding(.top, 4)
                     }
                 }
 
@@ -55,7 +70,33 @@ public struct NewChatView: View {
                         .disabled(recipientName.trimmingCharacters(in: .whitespaces).isEmpty || recipientPublicKey.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             }
+            .sheet(isPresented: $showQRScanner) {
+                NavigationView {
+                    QRScannerView(
+                        onScan: { scannedText in
+                            handleScannedCode(scannedText)
+                            showQRScanner = false
+                        },
+                        onDismiss: {
+                            showQRScanner = false
+                        }
+                    )
+                    .navigationTitle("Сканировать QR")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button("Закрыть") { showQRScanner = false }
+                        }
+                    }
+                }
+            }
         }
+    }
+
+    private func handleScannedCode(_ code: String) {
+        let trimmed = code.trimmingCharacters(in: .whitespacesAndNewlines)
+        // Check if QR code is formatted as JSON or pure key or key with prefix
+        recipientPublicKey = trimmed
     }
 
     private func pasteFromClipboard() {
