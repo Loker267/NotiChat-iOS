@@ -167,7 +167,7 @@ public final class NtfyService: NSObject, ObservableObject, URLSessionDataDelega
 
         // The message field inside ntfy event contains our NtfyWirePayload JSON string
         guard let payloadData = rawMessage.data(using: .utf8),
-              let wire = try? JSONDecoder().decode(NtfyWirePayload.self, data: payloadData) else {
+              let wire = try? JSONDecoder().decode(NtfyWirePayload.self, from: payloadData) else {
             return
         }
 

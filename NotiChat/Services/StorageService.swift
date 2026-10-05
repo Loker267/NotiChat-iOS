@@ -25,7 +25,7 @@ public final class StorageService: ObservableObject {
     // MARK: - Identity Management
     public func loadIdentity() {
         if let data = UserDefaults.standard.data(forKey: identityKey),
-           let identity = try? JSONDecoder().decode(UserIdentity.self, data: data) {
+           let identity = try? JSONDecoder().decode(UserIdentity.self, from: data) {
             self.myIdentity = identity
         } else {
             // Generate initial identity
@@ -60,7 +60,7 @@ public final class StorageService: ObservableObject {
     public func loadChats() {
         let url = documentsDirectory.appendingPathComponent(chatsFileName)
         guard let data = try? Data(contentsOf: url),
-              let list = try? JSONDecoder().decode([Chat].self, data: data) else { return }
+              let list = try? JSONDecoder().decode([Chat].self, from: data) else { return }
         self.chats = list.sorted { $0.timestamp > $1.timestamp }
     }
 
@@ -74,7 +74,7 @@ public final class StorageService: ObservableObject {
     public func loadMessages() {
         let url = documentsDirectory.appendingPathComponent(messagesFileName)
         guard let data = try? Data(contentsOf: url),
-              let dict = try? JSONDecoder().decode([String: [ChatMessage]].self, data: data) else { return }
+              let dict = try? JSONDecoder().decode([String: [ChatMessage]].self, from: data) else { return }
         self.messagesByChatId = dict
     }
 
