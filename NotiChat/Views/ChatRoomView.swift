@@ -10,7 +10,7 @@ public struct ChatRoomView: View {
 
     // Media
     @StateObject private var audioRecorder = AudioRecorderManager()
-    @State private var selectedPhotoItem: PhotosPickerItem? = null
+    @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var isSelectingPhoto = false
 
     // Inspector

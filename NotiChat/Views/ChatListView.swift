@@ -218,3 +218,51 @@ public struct ChatListView: View {
         return nil
     }
 }
+
+struct ChatRow: View {
+    let chat: Chat
+
+    var body: some View {
+        HStack(spacing: 14) {
+            ZStack {
+                Circle()
+                    .fill(Color.blue.opacity(0.15))
+                    .frame(width: 48, height: 48)
+
+                Text(chat.recipientName.prefix(1).uppercased())
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundColor(.blue)
+            }
+
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text(chat.recipientName)
+                        .font(.headline)
+                        .lineLimit(1)
+                    Spacer()
+                    Text(formatTimestamp(chat.timestamp))
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+
+                Text(chat.lastMessage.isEmpty ? "Нет сообщений" : chat.lastMessage)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
+            }
+        }
+        .padding(.vertical, 4)
+    }
+
+    private func formatTimestamp(_ ts: Int64) -> String {
+        let date = Date(timeIntervalSince1970: TimeInterval(ts / 1000))
+        let calendar = Calendar.current
+        let formatter = DateFormatter()
+        if calendar.isDateInToday(date) {
+            formatter.dateFormat = "HH:mm"
+        } else {
+            formatter.dateFormat = "dd.MM"
+        }
+        return formatter.string(from: date)
+    }
+}
